@@ -1,0 +1,42 @@
+name: Check Repository and Nested Wiki Structure
+
+on:
+  workflow_dispatch: # 手動実行を可能にするトリガー
+
+jobs:
+  explore_repositories:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Main Repository
+        uses: actions/checkout@v4
+        with:
+          # 現在のワークフローが実行されているリポジトリをクローン
+          # デフォルトのパスは ${{ github.workspace }} です
+          # ここでは明示的に指定しませんが、デフォルトのパスにクローンされます
+          # 例: /home/runner/work/your-repo/your-repo
+          # path: . # デフォルトなので省略可能
+
+      - name: Checkout Wiki Repository into 'wiki' folder
+        uses: actions/checkout@v4
+        with:
+          # Wikiリポジトリを指定 (例: your-owner/your-repo.wiki)
+          repository: ${{ github.repository }}.wiki
+          # Wikiの内容をクローンするパスを指定
+          # メインリポジトリのルート (GITHUB_WORKSPACE) の下に 'wiki' フォルダを作成
+          path: wiki
+
+      - name: Verify Final Folder Structure
+        run: |
+          echo "--- Current Working Directory: $(pwd) ---"
+          echo "--- Final Folder Structure ---"
+          # tree コマンドがインストールされていることを確認し、インストール
+          sudo apt-get update && sudo apt-get install -y tree
+          # カレントディレクトリ (github.workspace) からツリー表示
+          tree -L 3 . # 3階層まで表示
+          echo "----------------------------"
+
+      - name: Show Wiki Folder Content (Example)
+        run: |
+          echo "--- Contents of wiki folder (first 5 files/dirs) ---"
+          ls -F wiki | head -n 5
+          echo "----------------------------------------------------"
