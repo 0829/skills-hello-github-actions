@@ -7,6 +7,6 @@ assert.strictEqual(add(-1, 1), 0);
 
 console.log('Testing multiply function...');
 assert.strictEqual(multiply(2, 3), 6);
-assert.strictEqual(multiply(1, 5), 0);
+assert.strictEqual(multiply(0, 5), 0);
 
 console.log('All tests passed! ✅');
