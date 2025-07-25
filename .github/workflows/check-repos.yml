@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Checkout Main Repository
         uses: actions/checkout@v4
-        with:
+        # with:
           # 現在のワークフローが実行されているリポジトリをクローン
           # デフォルトのパスは ${{ github.workspace }} です
           # ここでは明示的に指定しませんが、デフォルトのパスにクローンされます
