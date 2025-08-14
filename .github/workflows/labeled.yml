@@ -10,6 +10,11 @@ jobs:
     permissions:
       issues: write
     steps:
+      - name: test
+        run: echo "$ISSUE_NUMBER"
+        env:
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+                      
       - name: Add comment
         run: gh issue comment "$NUMBER" --body "$BODY"
         env:
